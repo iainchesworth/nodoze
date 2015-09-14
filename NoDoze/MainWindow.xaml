@@ -1,0 +1,9 @@
+﻿<Window x:Class="NoDoze.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NoDoze" Height="0" Width="273" MinHeight="71.6" MinWidth="401">
+	<Grid>
+		<Label Content="Running this application prevents your screen from going to sleep." HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+	</Grid>
+</Window>
