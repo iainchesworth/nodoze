@@ -1,28 +1,58 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NoDoze
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
-	{
-		public MainWindow()
-		{
-			InitializeComponent();
-		}
-	}
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        private NotificationTray notificationTray = new NotificationTray();
+
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            Closed += OnClosed;
+            Closing += OnClosing;
+            Loaded += OnLoaded;
+            StateChanged += OnStateChanged;
+
+            base.OnInitialized(e);
+        }
+
+        private void OnClosed(object sender, System.EventArgs e)
+        {
+        }
+
+        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (this.WindowState != WindowState.Minimized)
+            {
+                // Prevent the window from closing (as we'll minimise instead).
+                e.Cancel = true;
+                
+                // Minimise the window to the notification tray
+                this.WindowState = WindowState.Minimized;
+            }
+
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void OnStateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Minimized)
+            {
+                this.Visibility = Visibility.Hidden;
+                notificationTray.Visible = true;
+            }
+        }
+    }
 }

@@ -5,5 +5,5 @@
 	<Grid>
 		<Label Content="Running this application prevents your screen from going to sleep." HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-	</Grid>
+    </Grid>
 </Window>
