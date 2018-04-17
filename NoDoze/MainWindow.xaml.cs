@@ -8,10 +8,14 @@ namespace NoDoze
     /// </summary>
     public partial class MainWindow : Window
     {
-        private NotificationTray notificationTray = new NotificationTray();
+        private ISleepingService sleepingService;
+        private NotificationTray notificationTray;
 
         public MainWindow()
         {
+            sleepingService = new SleepingService();
+            notificationTray = new NotificationTray(sleepingService);
+
             InitializeComponent();
         }
 

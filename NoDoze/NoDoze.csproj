@@ -55,6 +55,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NotifyIconWithClickHandler.cs" />
+    <Compile Include="ISleepingService.cs" />
+    <Compile Include="SleepingService.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
