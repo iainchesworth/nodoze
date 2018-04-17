@@ -13,12 +13,16 @@ namespace NoDoze
 
         private MouseEventArgs MouseClick_LastEventArgs;
         private MouseEventArgs MouseDoubleClick_LastEventArgs;
-        
+
+        private ILogger logger = null;
+
         private System.Timers.Timer clickTimer;
         private int clickCounter;
 
-        public NotifyIconWithClickHandler()
+        public NotifyIconWithClickHandler(ILogger _logger)
         {
+            this.logger = _logger;
+
             clickTimer = new System.Timers.Timer(SystemInformation.DoubleClickTime);
             clickTimer.Elapsed += new ElapsedEventHandler(EvaluateClicks);
 
@@ -46,6 +50,8 @@ namespace NoDoze
 
         private void MouseDown(object sender, MouseEventArgs e)
         {
+            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::NotifyIconWithClickHandler::MouseDown()"));
+
             clickTimer.Stop();
 
             MouseClick_LastEventArgs = e;
@@ -57,11 +63,13 @@ namespace NoDoze
 
         private void EvaluateClicks(object sender, ElapsedEventArgs e)
         {
+            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks()"));
+
             clickTimer.Stop();
 
             if (clickCounter == 0)
             {
-                ///TODO - not correct
+                logger.Log(new LogEntry(LoggingEventType.Warning, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks() - [Double] click event but counter indicates zero mouse down events."));
             }
             else if (clickCounter == 1)
             {
@@ -73,7 +81,7 @@ namespace NoDoze
             }
             else
             {
-                ///TODO - handle more than one or two clicks
+                logger.Log(new LogEntry(LoggingEventType.Warning, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks() - More than two clicks registered during double click period."));
             }
 
             clickCounter = 0;

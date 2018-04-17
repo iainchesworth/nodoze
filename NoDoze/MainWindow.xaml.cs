@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Windows;
 
 namespace NoDoze
@@ -8,13 +9,19 @@ namespace NoDoze
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ILogger logger;
         private ISleepingService sleepingService;
         private NotificationTray notificationTray;
 
         public MainWindow()
         {
+            var serilogLogger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
+            logger = new SerilogAdapter(serilogLogger);
+
             sleepingService = new SleepingService();
-            notificationTray = new NotificationTray(sleepingService);
+            notificationTray = new NotificationTray(logger, sleepingService);
 
             InitializeComponent();
         }
