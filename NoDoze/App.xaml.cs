@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+
+using NoDoze.Bindings;
 
 namespace NoDoze
 {
@@ -9,7 +12,7 @@ namespace NoDoze
 	{
 		public App()
 		{
-			InitializeComponent();
+            InitializeComponent();
 		}
     }
 }

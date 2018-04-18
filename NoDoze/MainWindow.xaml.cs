@@ -1,11 +1,10 @@
-﻿using Serilog;
-using System;
+﻿using System;
 using System.Windows;
 
+using NoDoze.Bindings;
 using NoDoze.Interfaces;
 using NoDoze.Logging;
 using NoDoze.Services;
-
 
 namespace NoDoze
 {
@@ -14,25 +13,22 @@ namespace NoDoze
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Interfaces.ILogger logger;
+        private ILogger logger = DIFactory.Resolve<ILogger>();
         private ISleepingService sleepingService;
         private NotificationTray notificationTray;
 
         public MainWindow()
         {
-            var serilogLogger = new LoggerConfiguration()
-                .WriteTo.Console()
-                .CreateLogger();
-            logger = new SerilogAdapter(serilogLogger);
-
-            sleepingService = new SleepingService(logger);
-            notificationTray = new NotificationTray(logger, sleepingService);
+            sleepingService = new SleepingService();
+            notificationTray = new NotificationTray(sleepingService);
 
             InitializeComponent();
         }
 
         protected override void OnInitialized(EventArgs e)
         {
+            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnInitialized()"));
+
             Closed += OnClosed;
             Closing += OnClosing;
             Loaded += OnLoaded;
@@ -43,10 +39,13 @@ namespace NoDoze
 
         private void OnClosed(object sender, System.EventArgs e)
         {
+            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnClosed()"));
         }
 
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnClosing()"));
+
             if (this.WindowState != WindowState.Minimized)
             {
                 // Prevent the window from closing (as we'll minimise instead).
@@ -60,10 +59,13 @@ namespace NoDoze
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnLoaded()"));
         }
 
         private void OnStateChanged(object sender, EventArgs e)
         {
+            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnStateChanged()"));
+
             if (this.WindowState == WindowState.Minimized)
             {
                 this.Visibility = Visibility.Hidden;

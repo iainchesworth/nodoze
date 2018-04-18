@@ -1,17 +1,13 @@
-﻿using NoDoze.Helpers;
+﻿using NoDoze.Bindings;
+using NoDoze.Helpers;
 using NoDoze.Interfaces;
 
 namespace NoDoze.Services
 {
     public class SleepingService : ISleepingService
     {
-        private ILogger Logger = null;
-
-        public SleepingService(ILogger _logger)
-        {
-            Logger = _logger;
-        }
-
+        private ILogger logger = DIFactory.Resolve<ILogger>();
+        
         // The default here is to "permit" sleeping as it requires explicit
         // actions by the application to "prevent" sleeping.
 

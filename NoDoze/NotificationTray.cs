@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
 
+using NoDoze.Bindings;
 using NoDoze.Helpers;
 using NoDoze.Interfaces;
 using NoDoze.Logging;
@@ -15,21 +16,20 @@ namespace NoDoze
         private NotifyIconWithClickHandler notifyIcon = null;
         private Dictionary<string, Icon> iconHandles = null;
         private ISleepingService sleepingService = null;
-        private ILogger logger = null;
+        private ILogger logger = DIFactory.Resolve<ILogger>();
 
         private const string NoDoze_PermitIcon = "NoDoze_SleepingPermitted";
         private const string NoDoze_PreventIcon = "NoDoze_SleepingPrevented";
 
-        public NotificationTray(ILogger _logger, ISleepingService _sleepingService)
+        public NotificationTray(ISleepingService _sleepingService)
         {
             this.sleepingService = _sleepingService;
-            this.logger = _logger;
 
             iconHandles = new Dictionary<string, Icon>();
             iconHandles.Add(NoDoze_PermitIcon, (System.Drawing.Icon)Properties.Resources.ResourceManager.GetObject("TrayIcon_DozeEnabled"));
             iconHandles.Add(NoDoze_PreventIcon, (System.Drawing.Icon)Properties.Resources.ResourceManager.GetObject("TrayIcon_DozeDisabled"));
 
-            notifyIcon = new NotifyIconWithClickHandler(_logger);
+            notifyIcon = new NotifyIconWithClickHandler();
             notifyIcon.Icon = iconHandles[NoDoze_PermitIcon];
             notifyIcon.Visible = false;
             notifyIcon.MouseClick += NotifyIcon_Click;

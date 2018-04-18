@@ -2,6 +2,7 @@
 using System.Timers;
 using System.Windows.Forms;
 
+using NoDoze.Bindings;
 using NoDoze.Interfaces;
 using NoDoze.Logging;
 
@@ -17,15 +18,13 @@ namespace NoDoze
         private MouseEventArgs MouseClick_LastEventArgs;
         private MouseEventArgs MouseDoubleClick_LastEventArgs;
 
-        private ILogger logger = null;
+        private ILogger logger = DIFactory.Resolve<ILogger>();
 
         private System.Timers.Timer clickTimer;
         private int clickCounter;
 
-        public NotifyIconWithClickHandler(ILogger _logger)
+        public NotifyIconWithClickHandler()
         {
-            this.logger = _logger;
-
             clickTimer = new System.Timers.Timer(SystemInformation.DoubleClickTime);
             clickTimer.Elapsed += new ElapsedEventHandler(EvaluateClicks);
 
