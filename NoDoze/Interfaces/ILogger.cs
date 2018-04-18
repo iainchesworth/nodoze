@@ -1,4 +1,6 @@
-﻿namespace NoDoze
+﻿using NoDoze.Logging;
+
+namespace NoDoze.Interfaces
 {
     public interface ILogger
     {

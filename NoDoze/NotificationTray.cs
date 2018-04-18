@@ -4,6 +4,10 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
 
+using NoDoze.Helpers;
+using NoDoze.Interfaces;
+using NoDoze.Logging;
+
 namespace NoDoze
 {
     public class NotificationTray

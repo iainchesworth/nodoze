@@ -61,15 +61,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ILogger.cs" />
-    <Compile Include="LogEntry.cs" />
-    <Compile Include="LoggerExtensions.cs" />
-    <Compile Include="LoggingEventType.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Logging\LogEntry.cs" />
+    <Compile Include="Logging\LoggerExtensions.cs" />
+    <Compile Include="Logging\LoggingEventType.cs" />
     <Compile Include="NotifyIconWithClickHandler.cs" />
-    <Compile Include="ISleepingService.cs" />
-    <Compile Include="SerilogAdapter.cs" />
-    <Compile Include="SleepingService.cs" />
-    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Interfaces\ISleepingService.cs" />
+    <Compile Include="Logging\SerilogAdapter.cs" />
+    <Compile Include="Services\SleepingService.cs" />
+    <Compile Include="Helpers\NativeMethods.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -79,7 +79,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="NotificationTray.cs" />
-    <Compile Include="Support.cs" />
+    <Compile Include="Helpers\Support.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

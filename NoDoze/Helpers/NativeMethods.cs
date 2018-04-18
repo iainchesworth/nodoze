@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
-namespace NoDoze
+namespace NoDoze.Helpers
 {
     internal static class NativeMethods
     {

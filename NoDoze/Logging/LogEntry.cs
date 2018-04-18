@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NoDoze
+namespace NoDoze.Logging
 {
     public class LogEntry
     {

@@ -1,9 +1,27 @@
 ﻿<Window x:Class="NoDoze.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="NoDoze" Height="0" Width="273" MinHeight="71.6" MinWidth="401">
+        Title="NoDoze" Height="125" Width="375" MinHeight="125" MinWidth="375"
+        ResizeMode="CanMinimize">
 	<Grid>
-		<Label Content="Running this application prevents your screen from going to sleep." HorizontalAlignment="Left" VerticalAlignment="Top"/>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Stay Awake"/>
+                <MenuItem Header="E_xit"/>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1">
+            <Label Content="Running this application prevents your screen from going to sleep." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

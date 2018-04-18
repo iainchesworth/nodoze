@@ -2,6 +2,9 @@
 using System.Timers;
 using System.Windows.Forms;
 
+using NoDoze.Interfaces;
+using NoDoze.Logging;
+
 namespace NoDoze
 {
     class NotifyIconWithClickHandler

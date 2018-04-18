@@ -2,6 +2,11 @@
 using System;
 using System.Windows;
 
+using NoDoze.Interfaces;
+using NoDoze.Logging;
+using NoDoze.Services;
+
+
 namespace NoDoze
 {
     /// <summary>
@@ -9,7 +14,7 @@ namespace NoDoze
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ILogger logger;
+        private Interfaces.ILogger logger;
         private ISleepingService sleepingService;
         private NotificationTray notificationTray;
 
@@ -20,7 +25,7 @@ namespace NoDoze
                 .CreateLogger();
             logger = new SerilogAdapter(serilogLogger);
 
-            sleepingService = new SleepingService();
+            sleepingService = new SleepingService(logger);
             notificationTray = new NotificationTray(logger, sleepingService);
 
             InitializeComponent();

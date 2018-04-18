@@ -1,4 +1,7 @@
-﻿namespace NoDoze
+﻿using NoDoze.Interfaces;
+
+namespace NoDoze.Logging
+
 {
     public class SerilogAdapter : ILogger
     {

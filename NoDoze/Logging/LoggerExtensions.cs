@@ -1,6 +1,8 @@
 ﻿using System;
 
-namespace NoDoze
+using NoDoze.Interfaces;
+
+namespace NoDoze.Logging
 {
     public static class LoggerExtensions
     {
