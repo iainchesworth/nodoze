@@ -15,16 +15,14 @@ namespace NoDoze
     {
         private NotifyIconWithClickHandler notifyIcon = null;
         private Dictionary<string, Icon> iconHandles = null;
-        private ISleepingService sleepingService = null;
+        private ISleepingService sleepingService = DIFactory.Resolve<ISleepingService>();
         private ILogger logger = DIFactory.Resolve<ILogger>();
 
         private const string NoDoze_PermitIcon = "NoDoze_SleepingPermitted";
         private const string NoDoze_PreventIcon = "NoDoze_SleepingPrevented";
 
-        public NotificationTray(ISleepingService _sleepingService)
+        public NotificationTray()
         {
-            this.sleepingService = _sleepingService;
-
             iconHandles = new Dictionary<string, Icon>();
             iconHandles.Add(NoDoze_PermitIcon, (System.Drawing.Icon)Properties.Resources.ResourceManager.GetObject("TrayIcon_DozeEnabled"));
             iconHandles.Add(NoDoze_PreventIcon, (System.Drawing.Icon)Properties.Resources.ResourceManager.GetObject("TrayIcon_DozeDisabled"));

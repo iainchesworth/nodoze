@@ -8,8 +8,8 @@
     <Window.DataContext>
         <local:MainWindow />
     </Window.DataContext>
-    
-	<Grid>
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="_File">
-                <MenuItem Header="_Stay Awake"/>
+                <MenuItem Header="_Stay Awake" Command="{Binding StayAwakeToggleCommand}" IsChecked="{Binding StayAwake, Mode=TwoWay}"/>
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}"/>
             </MenuItem>
         </Menu>

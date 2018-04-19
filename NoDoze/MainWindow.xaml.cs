@@ -14,13 +14,11 @@ namespace NoDoze
     public partial class MainWindow : Window
     {
         private ILogger logger = DIFactory.Resolve<ILogger>();
-        private ISleepingService sleepingService;
         private NotificationTray notificationTray;
 
         public MainWindow()
         {
-            sleepingService = new SleepingService();
-            notificationTray = new NotificationTray(sleepingService);
+            notificationTray = new NotificationTray();
 
             InitializeComponent();
         }
