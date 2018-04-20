@@ -10,83 +10,83 @@ namespace NoDoze
 {
     class NotifyIconWithClickHandler
     {
-        private NotifyIcon notifyIcon;
+        private readonly NotifyIcon _notifyIcon;
 
         public event MouseEventHandler MouseClick = delegate { };
         public event MouseEventHandler MouseDoubleClick = delegate { };
 
-        private MouseEventArgs MouseClick_LastEventArgs;
-        private MouseEventArgs MouseDoubleClick_LastEventArgs;
+        private MouseEventArgs _mouseClickLastEventArgs;
+        private MouseEventArgs _mouseDoubleClickLastEventArgs;
 
-        private ILogger logger = DIFactory.Resolve<ILogger>();
+        private readonly ILogger _logger = DiFactory.Resolve<ILogger>();
 
-        private System.Timers.Timer clickTimer;
-        private int clickCounter;
+        private readonly System.Timers.Timer _clickTimer;
+        private int _clickCounter;
 
         public NotifyIconWithClickHandler()
         {
-            clickTimer = new System.Timers.Timer(SystemInformation.DoubleClickTime);
-            clickTimer.Elapsed += new ElapsedEventHandler(EvaluateClicks);
+            _clickTimer = new System.Timers.Timer(SystemInformation.DoubleClickTime);
+            _clickTimer.Elapsed += EvaluateClicks;
 
-            notifyIcon = new NotifyIcon();
-            notifyIcon.MouseDown += MouseDown;
+            _notifyIcon = new NotifyIcon();
+            _notifyIcon.MouseDown += MouseDown;
         }
 
         public ContextMenuStrip ContextMenuStrip
         {
-            get { return notifyIcon.ContextMenuStrip; }
-            set { notifyIcon.ContextMenuStrip = value; }
+            get => _notifyIcon.ContextMenuStrip;
+            set => _notifyIcon.ContextMenuStrip = value;
         }
 
         public Icon Icon
         {
-            get { return notifyIcon.Icon; }
-            set { notifyIcon.Icon = value; }
+            get => _notifyIcon.Icon;
+            set => _notifyIcon.Icon = value;
         }
 
         public bool Visible
         {
-            get { return notifyIcon.Visible; }
-            set { notifyIcon.Visible = value; }
+            get => _notifyIcon.Visible;
+            set => _notifyIcon.Visible = value;
         }
 
         private void MouseDown(object sender, MouseEventArgs e)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::NotifyIconWithClickHandler::MouseDown()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::NotifyIconWithClickHandler::MouseDown()"));
 
-            clickTimer.Stop();
+            _clickTimer.Stop();
 
-            MouseClick_LastEventArgs = e;
-            MouseDoubleClick_LastEventArgs = e;
+            _mouseClickLastEventArgs = e;
+            _mouseDoubleClickLastEventArgs = e;
 
-            clickCounter++;
-            clickTimer.Start();
+            _clickCounter++;
+            _clickTimer.Start();
         }
 
         private void EvaluateClicks(object sender, ElapsedEventArgs e)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks()"));
 
-            clickTimer.Stop();
+            _clickTimer.Stop();
 
-            if (clickCounter == 0)
+            if (_clickCounter == 0)
             {
-                logger.Log(new LogEntry(LoggingEventType.Warning, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks() - [Double] click event but counter indicates zero mouse down events."));
+                _logger.Log(new LogEntry(LoggingEventType.Warning, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks() - [Double] click event but counter indicates zero mouse down events."));
             }
-            else if (clickCounter == 1)
+            else if (_clickCounter == 1)
             {
-                MouseClick(this, MouseClick_LastEventArgs);
+                MouseClick(this, _mouseClickLastEventArgs);
             }
-            else if (clickCounter == 2)
+            else if (_clickCounter == 2)
             {
-                MouseDoubleClick(this, MouseDoubleClick_LastEventArgs);
+                MouseDoubleClick(this, _mouseDoubleClickLastEventArgs);
             }
             else
             {
-                logger.Log(new LogEntry(LoggingEventType.Warning, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks() - More than two clicks registered during double click period."));
+                _logger.Log(new LogEntry(LoggingEventType.Warning, "NoDoze::NotifyIconWithClickHandler::EvaluateClicks() - More than two clicks registered during double click period."));
             }
 
-            clickCounter = 0;
+            _clickCounter = 0;
         }
     }
 }

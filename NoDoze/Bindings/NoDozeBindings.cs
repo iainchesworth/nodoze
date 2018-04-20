@@ -1,8 +1,6 @@
-﻿using Ninject;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 using Serilog;
 
-using NoDoze.Interfaces;
 using NoDoze.Logging;
 using NoDoze.Services;
 

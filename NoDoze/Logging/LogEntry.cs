@@ -10,12 +10,12 @@ namespace NoDoze.Logging
 
         public LogEntry(LoggingEventType severity, string message, Exception exception = null)
         {
-            if (message == null) throw new ArgumentNullException("message");
-            if (message == string.Empty) throw new ArgumentException("empty", "message");
+            if (message == null) throw new ArgumentNullException(nameof (message));
+            if (message == string.Empty) throw new ArgumentException("empty", nameof (message));
 
-            this.Severity = severity;
-            this.Message = message;
-            this.Exception = exception;
+            Severity = severity;
+            Message = message;
+            Exception = exception;
         }
     }
 }

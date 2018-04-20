@@ -68,7 +68,6 @@
     <Compile Include="Bindings\DIFactory.cs" />
     <Compile Include="Bindings\NoDozeBootstrapper.cs" />
     <Compile Include="Helpers\CommandHandler.cs" />
-    <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Bindings\NoDozeBindings.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\INinjectModuleBootstrapper.cs" />

@@ -3,23 +3,24 @@ using System;
 
 namespace NoDoze.Bindings
 {
-    public static class DIFactory
+    public static class DiFactory
     {
-        private static IKernel kernel = null;
+        private static IKernel _kernel;
 
         public static T Resolve<T>()
         {
-            if (kernel == null)
+            if (_kernel == null)
             {
-                CreateKernel();
+                _kernel = CreateKernel();
             }
-            return kernel.Get<T>();
+
+            return _kernel.Get<T>();
         }
 
-        private static void CreateKernel()
+        private static IKernel CreateKernel()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            kernel = BootstrapHelper.LoadNinjectKernel(assemblies);
+            return _kernel = BootstrapHelper.LoadNinjectKernel(assemblies);
         }
     }
 }

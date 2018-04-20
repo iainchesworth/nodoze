@@ -4,28 +4,25 @@ using System.Windows;
 using NoDoze.Bindings;
 using NoDoze.Interfaces;
 using NoDoze.Logging;
-using NoDoze.Services;
 
 namespace NoDoze
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    /// <inheritdoc cref="Window"/>
+    public partial class MainWindow
     {
-        private ILogger logger = DIFactory.Resolve<ILogger>();
-        private NotificationTray notificationTray;
+        private readonly ILogger _logger = DiFactory.Resolve<ILogger>();
+        private readonly NotificationTray _notificationTray;
 
         public MainWindow()
         {
-            notificationTray = new NotificationTray();
+            _notificationTray = new NotificationTray();
 
             InitializeComponent();
         }
 
         protected override void OnInitialized(EventArgs e)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnInitialized()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnInitialized()"));
 
             Closed += OnClosed;
             Closing += OnClosing;
@@ -35,40 +32,40 @@ namespace NoDoze
             base.OnInitialized(e);
         }
 
-        private void OnClosed(object sender, System.EventArgs e)
+        private void OnClosed(object sender, EventArgs e)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnClosed()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnClosed()"));
         }
 
         private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnClosing()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnClosing()"));
 
-            if (this.WindowState != WindowState.Minimized)
+            if (WindowState != WindowState.Minimized)
             {
                 // Prevent the window from closing (as we'll minimise instead).
                 e.Cancel = true;
                 
                 // Minimise the window to the notification tray
-                this.WindowState = WindowState.Minimized;
+                WindowState = WindowState.Minimized;
             }
 
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnLoaded()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnLoaded()"));
         }
 
         private void OnStateChanged(object sender, EventArgs e)
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnStateChanged()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::OnStateChanged()"));
 
-            if (this.WindowState == WindowState.Minimized)
-            {
-                this.Visibility = Visibility.Hidden;
-                notificationTray.Visible = true;
-            }
+            if (WindowState != WindowState.Minimized)
+                return;
+
+            Visibility = Visibility.Hidden;
+           _notificationTray.Visible = true;
         }
     }
 }

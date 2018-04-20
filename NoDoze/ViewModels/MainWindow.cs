@@ -1,6 +1,4 @@
-﻿using Ninject;
-using System.Reflection;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 using NoDoze.Bindings;
 using NoDoze.Helpers;
@@ -11,12 +9,12 @@ namespace NoDoze.ViewModels
 {
     public class MainWindow : ViewModelBase
     {
-        private ISleepingService sleepingService = DIFactory.Resolve<ISleepingService>();
-        private ILogger logger = DIFactory.Resolve<ILogger>();
+        private readonly ISleepingService _sleepingService = DiFactory.Resolve<ISleepingService>();
+        private readonly ILogger _logger = DiFactory.Resolve<ILogger>();
 
-        private string StayAwake_SleepingPermittedStatus = "NoDoze Inactive - Sleep Enabled";
-        private string StayAwake_SleepingPreventedStatus = "NoDoze Active - Sleep Disabled";
-        private bool stayAwake;
+        private const string StayAwakeSleepingPermittedStatus = "NoDoze Inactive - Sleep Enabled";
+        private const string StayAwakeSleepingPreventedStatus = "NoDoze Active - Sleep Disabled";
+        private bool _stayAwake;
 
         public MainWindow()
         {
@@ -27,15 +25,12 @@ namespace NoDoze.ViewModels
             StayAwake = true;
         }
 
-        private ICommand exitCommand;
-        public ICommand ExitCommand
-        {
-            get { return exitCommand ?? (exitCommand = new CommandHandler(() => ExitAction(), true)); }
-        }
+        private ICommand _exitCommand;
+        public ICommand ExitCommand => _exitCommand ?? (_exitCommand = new CommandHandler(() => ExitAction(), true));
 
         public void ExitAction()
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::ExitAction()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::ExitAction()"));
 
             // Terminate the application.  Note that just "closing" the window
             // will trigger the OnClosing event which cancels the application's
@@ -44,46 +39,39 @@ namespace NoDoze.ViewModels
             System.Windows.Application.Current.Shutdown();
         }
 
-        private ICommand stayAwakeToggleCommand;
-        public ICommand StayAwakeToggleCommand
-        {
-            get { return stayAwakeToggleCommand ?? (stayAwakeToggleCommand = new CommandHandler(() => StayAwakeToggleAction(), true)); }
-        }
+        private ICommand _stayAwakeToggleCommand;
+        public ICommand StayAwakeToggleCommand => _stayAwakeToggleCommand ?? (_stayAwakeToggleCommand = new CommandHandler(() => StayAwakeToggleAction(), true));
 
         public void StayAwakeToggleAction()
         {
-            logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwakeToggleAction()"));
+            _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwakeToggleAction()"));
             StayAwake = (!StayAwake);
         }
 
         public bool StayAwake
         {
-            get
-            {
-                return stayAwake;
-            }
-
+            get => _stayAwake;
             set
             {
                 if (value == StayAwake)
                 {
-                    logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::set() - Same state requested; no change actioned"));
+                    _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::set() - Same state requested; no change actioned"));
                 }
                 else
                 {
                     if (StayAwake)
                     {
-                        logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::set() - Switching state to PermitSleeping"));
-                        sleepingService.PermitSleeping();
+                        _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::set() - Switching state to PermitSleeping"));
+                        _sleepingService.PermitSleeping();
                     }
                     else
                     {
-                        logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::set() - Switching state to PreventSleeping"));
-                        sleepingService.PreventSleeping();
+                        _logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::set() - Switching state to PreventSleeping"));
+                        _sleepingService.PreventSleeping();
                     }
 
                     // Indicate to the world (that cares) that this property has changed.
-                    SetProperty(ref stayAwake, value);
+                    SetProperty(ref _stayAwake, value);
 
                     // A side effect will be that the status message will change...also inform the world.
                     OnPropertyChanged(StayAwakeStatusMessage);
@@ -91,9 +79,6 @@ namespace NoDoze.ViewModels
             }
         }
 
-        public string StayAwakeStatusMessage
-        { 
-            get { return StayAwake ? StayAwake_SleepingPreventedStatus : StayAwake_SleepingPermittedStatus; }
-        }
+        public string StayAwakeStatusMessage => (StayAwake) ? StayAwakeSleepingPreventedStatus : StayAwakeSleepingPermittedStatus;
     }
 }

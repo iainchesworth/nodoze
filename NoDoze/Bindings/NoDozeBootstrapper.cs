@@ -5,7 +5,7 @@ using NoDoze.Interfaces;
 
 namespace NoDoze.Bindings
 {
-    class NoDozeBootstrapper : INinjectModuleBootstrapper
+    public class NoDozeBootstrapper : INinjectModuleBootstrapper
     {
         public IList<INinjectModule> GetModules()
         {

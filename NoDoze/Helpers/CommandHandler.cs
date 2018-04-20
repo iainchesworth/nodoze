@@ -5,25 +5,25 @@ namespace NoDoze.Helpers
 {
     public class CommandHandler : ICommand
     {
-        private Action action;
-        private bool canExecute;
+        private readonly Action _action;
+        private readonly bool _canExecute;
 
-        public CommandHandler(Action _action, bool _canExecute)
+        public CommandHandler(Action action, bool canExecute)
         {
-            action = _action;
-            canExecute = _canExecute;
+            _action = action;
+            _canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return canExecute;
+            return _canExecute;
         }
 
         public event EventHandler CanExecuteChanged;
 
         public void Execute(object parameter)
         {
-            action();
+            _action();
         }
     }
 }

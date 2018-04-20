@@ -22,7 +22,7 @@ namespace NoDoze.ViewModels
 
             storage = value;
 
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
 
             return true;
         }

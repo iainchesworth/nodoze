@@ -5,7 +5,7 @@ namespace NoDoze.Helpers
 {
     class Support
     {
-        static public ToolStripMenuItem ToolStripMenuItemWithHandler(string displayText, string name, EventHandler eventHandler)
+        public static ToolStripMenuItem ToolStripMenuItemWithHandler(string displayText, string name, EventHandler eventHandler)
         {
             var item = new ToolStripMenuItem(displayText);
 
