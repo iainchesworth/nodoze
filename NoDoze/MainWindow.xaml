@@ -26,7 +26,7 @@
         </Grid>
         <StatusBar Grid.Row="2">
             <StatusBarItem>
-                <TextBlock/>
+                <TextBlock TextAlignment="Left" Text="{Binding StayAwakeStatusMessage}"/>
             </StatusBarItem>
         </StatusBar>
     </Grid>

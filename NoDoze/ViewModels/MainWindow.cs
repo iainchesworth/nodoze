@@ -13,6 +13,9 @@ namespace NoDoze.ViewModels
     {
         private ISleepingService sleepingService = DIFactory.Resolve<ISleepingService>();
         private ILogger logger = DIFactory.Resolve<ILogger>();
+
+        private string StayAwake_SleepingPermittedStatus = "NoDoze Inactive - Sleep Enabled";
+        private string StayAwake_SleepingPreventedStatus = "NoDoze Active - Sleep Disabled";
         private bool stayAwake;
 
         public MainWindow()
@@ -57,14 +60,11 @@ namespace NoDoze.ViewModels
         {
             get
             {
-                logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::get()"));
                 return stayAwake;
             }
 
             set
             {
-                logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::set()"));
-
                 if (value == StayAwake)
                 {
                     logger.Log(new LogEntry(LoggingEventType.Debug, "NoDoze::MainWindow::StayAwake::set() - Same state requested; no change actioned"));
@@ -82,9 +82,18 @@ namespace NoDoze.ViewModels
                         sleepingService.PreventSleeping();
                     }
 
+                    // Indicate to the world (that cares) that this property has changed.
                     SetProperty(ref stayAwake, value);
+
+                    // A side effect will be that the status message will change...also inform the world.
+                    OnPropertyChanged(StayAwakeStatusMessage);
                 }
             }
+        }
+
+        public string StayAwakeStatusMessage
+        { 
+            get { return StayAwake ? StayAwake_SleepingPreventedStatus : StayAwake_SleepingPermittedStatus; }
         }
     }
 }
